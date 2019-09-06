@@ -18,32 +18,14 @@ class MainWindow(QMainWindow):
         # 小方格与地雷数，默认等级为中等
         self.b_size, self.n_mines = LEVELS["median"]
 
+        # 由于菜单栏不用重新渲染
+        self.create_menubar()
+
         self.init()
         self.game_ready()
         # 展示窗口
         self.setWindowTitle("mines")
         self.show()
-
-
-    def init(self):
-        # 窗口的初始化函数，不仅仅用于开始的初始化，还可以用在后面更新窗口的控件
-        # 如在窗口的小方格数目发生变化时，需要重新对窗口进行渲染
-        # 布局变量,垂直空间布局
-        vb = QVBoxLayout()
-        self.create_menubar()
-        self.create_horizontal_box()
-        self.create_grid_box()
-
-        vb.setMenuBar(self.menubar)
-        vb.addLayout(self.horizontal_box)
-        vb.addLayout(self.grid)
-
-        # QWidget 指定布局为vb，而vb中加入hb布局以及grid布局
-        w = QWidget()
-        w.setLayout(vb)
-
-        # QMainWindow 设定主要的中心文件为w
-        self.setCentralWidget(w)
 
 
     def create_menubar(self):
@@ -93,12 +75,33 @@ class MainWindow(QMainWindow):
             if action.isChecked():
                 # 获取行为的文本描述，并将其选择成游戏的等级
                 level = action.text()
+                action.setChecked(True)
                 # 更新等级难度
                 self.b_size, self.n_mines = LEVELS[level]
                 # 对窗口的内容进行重新渲染
                 self.init()
                 # 重置游戏
                 self.game_ready()
+
+    def init(self):
+        # 窗口的初始化函数，不仅仅用于开始的初始化，还可以用在后面更新窗口的控件
+        # 如在窗口的小方格数目发生变化时，需要重新对窗口进行渲染
+        # 布局变量,垂直空间布局
+        self.vb = QVBoxLayout()
+        self.vb.setMenuBar(self.menubar)
+
+        self.create_horizontal_box()
+        self.create_grid_box()
+
+        self.vb.addLayout(self.horizontal_box)
+        self.vb.addLayout(self.grid)
+
+        # QWidget 指定布局为vb，而vb中加入hb布局以及grid布局
+        w = QWidget()
+        w.setLayout(self.vb)
+
+        # QMainWindow 设定主要的中心文件为w
+        self.setCentralWidget(w)
 
 
     def create_horizontal_box(self):
