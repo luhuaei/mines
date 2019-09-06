@@ -1,0 +1,14 @@
+This project fork on
+https://github.com/mfitzp/15-minute-apps/tree/master/minesweeper , but adding
+some my understand for PyQt5.
+
+Feature:
+1. The before project don't prompt any message when game finish. So my add
+   function dispaly the icon smiley-lol if game success.
+2. add flag count prompt.
+3. could select game level, you can select easy, median, hard on window menubar.
+4. add quit shortcut.
+
+Todo:
+- add user records.
+- add user rank.
